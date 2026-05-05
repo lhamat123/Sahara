@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sahara — Tienda por Departamentos</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header" id="header">
+  <div class="header-top">
+    <span class="header-tagline"><i class="fas fa-sun"></i> Colecciones 2025 — Envíos a todo el país</span>
+  </div>
+  <nav class="navbar">
+    <div class="nav-left">
+      <button class="hamburger" id="hamburgerBtn" aria-label="Menú">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <a href="index.html" class="logo">
+      <span class="logo-icon">☽</span>
+      <span class="logo-text">SAHARA</span>
+    </a>
+    <div class="nav-right">
+      <div class="search-wrap">
+        <input type="text" id="searchInput" placeholder="Buscar productos..." class="search-input"/>
+        <button class="search-btn"><i class="fas fa-search"></i></button>
+      </div>
+      <a href="admin/index.html" class="nav-icon" title="Administrador"><i class="fas fa-cog"></i></a>
+    </div>
+  </nav>
+  <!-- Category nav -->
+  <div class="cat-nav" id="catNav">
+    <ul class="cat-list" id="catList"></ul>
+  </div>
+</header>
+
+<!-- SIDEBAR MOBILE -->
+<aside class="sidebar" id="sidebar">
+  <button class="sidebar-close" id="sidebarClose"><i class="fas fa-times"></i></button>
+  <div class="sidebar-logo">☽ SAHARA</div>
+  <ul class="sidebar-cats" id="sidebarCats"></ul>
+</aside>
+<div class="overlay" id="overlay"></div>
+
+<!-- HERO -->
+<section class="hero" id="heroSection">
+  <div class="hero-content">
+    <p class="hero-sub">Nueva Colección</p>
+    <h1 class="hero-title">El Estilo<br/><em>Que Te Define</em></h1>
+    <p class="hero-desc">Descubre moda, calzado y juguetes de primera calidad, todo en un solo lugar.</p>
+    <button class="hero-btn" onclick="document.getElementById('productsSection').scrollIntoView({behavior:'smooth'})">
+      Explorar Ahora <i class="fas fa-arrow-right"></i>
+    </button>
+  </div>
+  <div class="hero-visual">
+    <div class="hero-shape"></div>
+    <div class="hero-badge">2025</div>
+  </div>
+</section>
+
+<!-- DEPARTMENTS HIGHLIGHT -->
+<section class="depts-section">
+  <h2 class="section-title">Departamentos</h2>
+  <div class="depts-grid" id="deptsGrid"></div>
+</section>
+
+<!-- PRODUCTS SECTION -->
+<section class="products-section" id="productsSection">
+  <div class="products-header">
+    <h2 class="section-title" id="productsTitle">Todos los Productos</h2>
+    <div class="filter-bar">
+      <select class="filter-select" id="sortSelect">
+        <option value="default">Ordenar por</option>
+        <option value="name-asc">Nombre A-Z</option>
+        <option value="name-desc">Nombre Z-A</option>
+        <option value="newest">Más recientes</option>
+      </select>
+    </div>
+  </div>
+  <div class="products-grid" id="productsGrid"></div>
+  <div class="empty-state" id="emptyState" style="display:none;">
+    <i class="fas fa-box-open"></i>
+    <p>No se encontraron productos.</p>
+  </div>
+</section>
+
+<!-- PRODUCT MODAL -->
+<div class="modal-overlay" id="productModal">
+  <div class="modal-box">
+    <button class="modal-close" id="modalClose"><i class="fas fa-times"></i></button>
+    <div class="modal-img-wrap">
+      <img id="modalImg" src="" alt=""/>
+    </div>
+    <div class="modal-info">
+      <span class="modal-cat" id="modalCat"></span>
+      <h2 class="modal-name" id="modalName"></h2>
+      <p class="modal-desc" id="modalDesc"></p>
+      <div class="modal-tags" id="modalTags"></div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <span class="logo-icon">☽</span>
+      <span class="footer-name">SAHARA</span>
+      <p>Tu tienda de confianza.<br/>Moda, calzado y juguetes.</p>
+    </div>
+    <div class="footer-links">
+      <h4>Departamentos</h4>
+      <ul id="footerCats"></ul>
+    </div>
+    <div class="footer-info">
+      <h4>Contacto</h4>
+      <p><i class="fas fa-envelope"></i> info@sahara.com</p>
+      <p><i class="fas fa-phone"></i> +1 (800) SAHARA</p>
+      <div class="social-links">
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-facebook"></i></a>
+        <a href="#"><i class="fab fa-tiktok"></i></a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2025 Sahara. Todos los derechos reservados.</p>
+  </div>
+</footer>
+
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

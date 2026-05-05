@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sahara — Panel de Administración</title>
+  <link rel="stylesheet" href="../css/style.css"/>
+  <link rel="stylesheet" href="admin.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body class="admin-body">
+
+<!-- SIDEBAR -->
+<aside class="admin-sidebar" id="adminSidebar">
+  <div class="admin-brand">
+    <span class="logo-icon">☽</span>
+    <span>SAHARA</span>
+    <span class="admin-badge">Admin</span>
+  </div>
+  <nav class="admin-nav">
+    <a href="#" class="admin-nav-item active" data-section="dashboard">
+      <i class="fas fa-chart-pie"></i><span>Dashboard</span>
+    </a>
+    <a href="#" class="admin-nav-item" data-section="categories">
+      <i class="fas fa-layer-group"></i><span>Categorías</span>
+    </a>
+    <a href="#" class="admin-nav-item" data-section="products">
+      <i class="fas fa-box"></i><span>Productos</span>
+    </a>
+  </nav>
+  <a href="../index.html" class="admin-view-store">
+    <i class="fas fa-store"></i><span>Ver Tienda</span>
+  </a>
+</aside>
+
+<!-- MAIN -->
+<main class="admin-main">
+
+  <!-- TOP BAR -->
+  <div class="admin-topbar">
+    <button class="sidebar-toggle" id="sidebarToggle"><i class="fas fa-bars"></i></button>
+    <div class="topbar-title" id="topbarTitle">Dashboard</div>
+    <div class="topbar-right">
+      <span class="topbar-user"><i class="fas fa-user-circle"></i> Administrador</span>
+    </div>
+  </div>
+
+  <!-- ===== DASHBOARD ===== -->
+  <section class="admin-section active" id="section-dashboard">
+    <div class="section-head">
+      <h1>Dashboard</h1>
+      <p>Resumen general de tu tienda Sahara</p>
+    </div>
+    <div class="stats-grid" id="statsGrid"></div>
+    <div class="dashboard-bottom">
+      <div class="recent-card">
+        <h3><i class="fas fa-clock"></i> Productos Recientes</h3>
+        <ul class="recent-list" id="recentProducts"></ul>
+      </div>
+      <div class="recent-card">
+        <h3><i class="fas fa-layer-group"></i> Categorías Activas</h3>
+        <ul class="recent-list" id="recentCats"></ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CATEGORIES ===== -->
+  <section class="admin-section" id="section-categories">
+    <div class="section-head">
+      <div>
+        <h1>Categorías</h1>
+        <p>Gestiona los departamentos de tu tienda</p>
+      </div>
+      <button class="btn-primary" id="btnAddCat"><i class="fas fa-plus"></i> Nueva Categoría</button>
+    </div>
+    <div class="table-wrap">
+      <table class="admin-table" id="catsTable">
+        <thead>
+          <tr>
+            <th>Icono</th><th>Nombre</th><th>ID</th><th>Productos</th><th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="catsBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ===== PRODUCTS ===== -->
+  <section class="admin-section" id="section-products">
+    <div class="section-head">
+      <div>
+        <h1>Productos</h1>
+        <p>Gestiona el catálogo de productos</p>
+      </div>
+      <button class="btn-primary" id="btnAddProduct"><i class="fas fa-plus"></i> Nuevo Producto</button>
+    </div>
+    <div class="admin-filter-bar">
+      <input type="text" class="admin-search" id="adminSearch" placeholder="Buscar producto..."/>
+      <select class="admin-filter-sel" id="adminCatFilter">
+        <option value="all">Todas las categorías</option>
+      </select>
+    </div>
+    <div class="table-wrap">
+      <table class="admin-table" id="productsTable">
+        <thead>
+          <tr>
+            <th>Imagen</th><th>Nombre</th><th>Categoría</th><th>Tags</th><th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="productsBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+</main>
+
+<!-- ===== MODAL: CATEGORY ===== -->
+<div class="modal-overlay" id="catModal">
+  <div class="modal-box admin-modal">
+    <div class="admin-modal-header">
+      <h2 id="catModalTitle">Nueva Categoría</h2>
+      <button class="modal-close" id="catModalClose"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="admin-modal-body">
+      <div class="form-group">
+        <label>Nombre de la Categoría *</label>
+        <input type="text" id="catName" placeholder="Ej: Ropa Mujer" class="form-input"/>
+      </div>
+      <div class="form-group">
+        <label>ID (slug único) *</label>
+        <input type="text" id="catId" placeholder="Ej: ropa-mujer" class="form-input"/>
+        <small>Solo letras, números y guiones. Se genera automáticamente.</small>
+      </div>
+      <div class="form-group">
+        <label>Icono (clase FontAwesome) *</label>
+        <div class="icon-input-wrap">
+          <input type="text" id="catIcon" placeholder="fas fa-female" class="form-input"/>
+          <div class="icon-preview"><i id="iconPreview" class="fas fa-star"></i></div>
+        </div>
+        <div class="icon-suggestions">
+          <span data-icon="fas fa-female">👗 Mujer</span>
+          <span data-icon="fas fa-male">👔 Hombre</span>
+          <span data-icon="fas fa-child">🧒 Niños</span>
+          <span data-icon="fas fa-shoe-prints">👟 Zapatos</span>
+          <span data-icon="fas fa-puzzle-piece">🧩 Juguetes</span>
+          <span data-icon="fas fa-gem">💎 Accesorios</span>
+          <span data-icon="fas fa-tshirt">👕 Camisas</span>
+          <span data-icon="fas fa-hat-cowboy">🎩 Sombreros</span>
+          <span data-icon="fas fa-glasses">👓 Gafas</span>
+          <span data-icon="fas fa-socks">🧦 Ropa Íntima</span>
+          <span data-icon="fas fa-baby">🍼 Bebés</span>
+          <span data-icon="fas fa-futbol">⚽ Deporte</span>
+        </div>
+      </div>
+    </div>
+    <div class="admin-modal-footer">
+      <button class="btn-secondary" id="catModalCancel">Cancelar</button>
+      <button class="btn-primary" id="catModalSave"><i class="fas fa-save"></i> Guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MODAL: PRODUCT ===== -->
+<div class="modal-overlay" id="productModal">
+  <div class="modal-box admin-modal wide-modal">
+    <div class="admin-modal-header">
+      <h2 id="productModalTitle">Nuevo Producto</h2>
+      <button class="modal-close" id="productModalClose"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="admin-modal-body product-modal-grid">
+      <div class="form-col">
+        <div class="form-group">
+          <label>Nombre del Producto *</label>
+          <input type="text" id="prodName" placeholder="Ej: Vestido Bohemio" class="form-input"/>
+        </div>
+        <div class="form-group">
+          <label>Categoría *</label>
+          <select id="prodCat" class="form-input">
+            <option value="">Seleccionar categoría...</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Descripción *</label>
+          <textarea id="prodDesc" rows="4" placeholder="Describe el producto..." class="form-input"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Tags (separados por coma)</label>
+          <input type="text" id="prodTags" placeholder="Ej: Nuevo, Verano, Premium" class="form-input"/>
+        </div>
+        <div class="form-group">
+          <label>Etiqueta destacada</label>
+          <select id="prodBadge" class="form-input">
+            <option value="">Sin etiqueta</option>
+            <option value="new">Nuevo</option>
+            <option value="sale">Oferta</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-col">
+        <div class="form-group">
+          <label>Imagen</label>
+          <div class="img-upload-area" id="imgUploadArea">
+            <div class="img-placeholder" id="imgPlaceholder">
+              <i class="fas fa-cloud-upload-alt"></i>
+              <p>Haz clic o arrastra una imagen</p>
+              <small>JPG, PNG, WEBP — máx 2MB</small>
+            </div>
+            <img id="imgPreview" src="" alt="" style="display:none;"/>
+            <button class="img-remove-btn" id="imgRemoveBtn" style="display:none;"><i class="fas fa-trash"></i></button>
+          </div>
+          <input type="file" id="imgFileInput" accept="image/*" style="display:none;"/>
+          <p style="font-size:12px; color:var(--adm-text-muted); margin-top:8px;">O bien, pega una URL de imagen:</p>
+          <input type="url" id="prodImageUrl" placeholder="https://ejemplo.com/imagen.jpg" class="form-input"/>
+        </div>
+      </div>
+    </div>
+    <div class="admin-modal-footer">
+      <button class="btn-secondary" id="productModalCancel">Cancelar</button>
+      <button class="btn-primary" id="productModalSave"><i class="fas fa-save"></i> Guardar Producto</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== CONFIRM DIALOG ===== -->
+<div class="modal-overlay" id="confirmModal">
+  <div class="modal-box admin-modal confirm-modal">
+    <div class="confirm-icon"><i class="fas fa-exclamation-triangle"></i></div>
+    <h3 id="confirmTitle">¿Estás seguro?</h3>
+    <p id="confirmMsg">Esta acción no se puede deshacer.</p>
+    <div class="admin-modal-footer" style="justify-content:center; gap:16px; margin-top:0;">
+      <button class="btn-secondary" id="confirmCancel">Cancelar</button>
+      <button class="btn-danger" id="confirmOk">Eliminar</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script src="../js/data.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>
